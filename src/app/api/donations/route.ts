@@ -6,14 +6,19 @@ import path from "path";
 export const dynamic = "force-dynamic";
 export async function GET() {
   try {
-    const donations = await (prisma as any).donation.findMany({
+    const donations = await prisma.donation.findMany({
       orderBy: { createdAt: "desc" },
     });
-    return NextResponse.json(donations);
-  } catch (error) {
-    console.error("[API_DONATIONS_GET]:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error", message: "Failed to fetch donations" },
+
+    return Response.json(donations);
+  } catch (error: any) {
+    console.error("REAL ERROR:", error);
+
+    return Response.json(
+      {
+        error: error.message,
+        stack: error.stack,
+      },
       { status: 500 }
     );
   }
