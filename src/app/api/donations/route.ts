@@ -3,7 +3,6 @@ import prisma from "@/lib/prisma";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 
-export const dynamic = "force-static";
 export async function GET() {
   try {
     const donations = await (prisma as any).donation.findMany({
