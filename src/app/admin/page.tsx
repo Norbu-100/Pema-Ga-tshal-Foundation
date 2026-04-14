@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { Users, Mail, Image as ImageIcon, Bell, HandHeart, Trophy } from "lucide-react";
 
