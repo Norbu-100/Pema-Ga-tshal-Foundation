@@ -26,7 +26,8 @@ export const metadata: Metadata = {
   title: {
     default: "Pema Ga-Tshal Foundation | Empowering Himalayan Communities",
     template: "%s | Pema Ga-Tshal Foundation",
-  }
+  },
+
 };
 
 export default function RootLayout({
