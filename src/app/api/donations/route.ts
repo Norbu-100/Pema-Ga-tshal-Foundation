@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { uploadImage } from "@/lib/cloudinary";
 
 export const dynamic = "force-dynamic";
 export async function GET() {
@@ -58,20 +57,12 @@ export async function POST(req: Request) {
       );
     }
 
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
-    await mkdir(uploadsDir, { recursive: true });
-
     async function saveFile(file: File): Promise<string> {
       try {
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        const uniqueName = `${Date.now()}-${file.name.replace(/\s+/g, "-")}`;
-        const filePath = path.join(uploadsDir, uniqueName);
-        await writeFile(filePath, buffer);
-        return `/uploads/${uniqueName}`;
+        return await uploadImage(file, "donations");
       } catch (err) {
-        console.error("File save error:", err);
-        throw new Error("Failed to save uploaded file");
+        console.error("Cloudinary upload error:", err);
+        throw new Error("Failed to upload file to Cloudinary");
       }
     }
 

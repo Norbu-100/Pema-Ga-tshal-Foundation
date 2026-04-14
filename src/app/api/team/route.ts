@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { uploadImage } from "@/lib/cloudinary";
 
 export async function GET() {
   try {
@@ -37,17 +36,10 @@ export async function POST(req: Request) {
 
     if (file) {
       try {
-        const uploadsDir = path.join(process.cwd(), "public", "uploads");
-        await mkdir(uploadsDir, { recursive: true });
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        const uniqueName = `team-${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
-        const filePath = path.join(uploadsDir, uniqueName);
-        await writeFile(filePath, buffer);
-        photoUrl = `/uploads/${uniqueName}`;
+        photoUrl = await uploadImage(file, "team");
       } catch (err) {
-        console.error("File save error:", err);
-        throw new Error("Failed to save team member photo");
+        console.error("Cloudinary upload error:", err);
+        throw new Error("Failed to upload team member photo");
       }
     }
 
