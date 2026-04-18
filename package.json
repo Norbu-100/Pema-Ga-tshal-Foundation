@@ -4,15 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
-    "start": " node server.js",
+    "start": "node index.js",
+    "build": "prisma generate",
     "lint": "eslint"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.0",
-    "@prisma/client": "^6.19.2",
+    "@prisma/client": "^6.19.3",
     "@supabase/ssr": "^0.10.2",
-    "@supabase/supabase-js": "^2.103.0",
+    "@supabase/supabase-js": "^2.103.3",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
